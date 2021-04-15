@@ -5,35 +5,28 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: julcarva <julcarva@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/18 20:31:54 by apuchill          #+#    #+#             */
-/*   Updated: 2021/04/12 16:03:02 by julcarva         ###   ########.fr       */
+/*   Created: 2021/02/28 16:21:16 by julcarva          #+#    #+#             */
+/*   Updated: 2021/04/15 20:42:12 by julcarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <limits.h>
-# include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <limits.h>
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5000
-# endif
+# define READLINE_OK 1
+# define EOF_REACHED 0
+# define ERR_HAPPENED -1
 
-# ifndef OPEN_MAX
-#  define OPEN_MAX 32
-# endif
+# define NOT_ENDLINE 0
+# define FOUND_ENDLINE 1
 
 int		get_next_line(int fd, char **line);
-
-/*
-** Utils
-*/
-
 size_t	ft_strlen(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strdup(const char *s);
+char	*ft_strdup(const char *s1);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 
 #endif

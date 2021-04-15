@@ -6,7 +6,7 @@
 /*   By: julcarva <julcarva@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 16:21:16 by julcarva          #+#    #+#             */
-/*   Updated: 2021/04/12 13:11:21 by julcarva         ###   ########.fr       */
+/*   Updated: 2021/04/15 20:42:12 by julcarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 # define GET_NEXT_LINE_H
 
 #include <unistd.h>
-#include <stdlib.h> //malloc
-#include <limits.h> //- implementation-defined constants. The macros defined in this header,
-					// limits the values of various variable types like char, int and long.
+#include <stdlib.h>
+#include <limits.h>
 
 # define READLINE_OK 1
 # define EOF_REACHED 0
 # define ERR_HAPPENED -1
 
-# define NOT_LASTLINE 0
+# define NOT_ENDLINE 0
 # define FOUND_ENDLINE 1
 
 int		get_next_line(int fd, char **line);
