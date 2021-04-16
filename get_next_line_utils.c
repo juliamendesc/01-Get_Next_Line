@@ -2,7 +2,7 @@
 
 size_t	ft_strlen(const char *s)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (s[len] != 0)
@@ -17,7 +17,8 @@ char	*ft_strdup(const char *s)
 	char	*copy;
 
 	size = ft_strlen(s) + 1;
-	if (!(copy = malloc((unsigned int)size)))
+	copy = malloc((unsigned int)size);
+	if (!copy)
 		return (NULL);
 	i = 0;
 	while (i < size)
