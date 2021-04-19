@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: julcarva <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/16 18:16:25 by julcarva          #+#    #+#             */
+/*   Updated: 2021/04/16 18:16:27 by julcarva         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-static void		free_and_null(char **ptr)
+static void	free_and_null(char **ptr)
 {
 	if (!ptr || !*ptr)
 		return ;
@@ -53,38 +65,42 @@ static int	buffer_to_line(char **line, char **buffer)
 	return (NOT_ENDLINE);
 }
 
+static void	read_and_copy(int fd, char **buffer, char *tmp)
+{
+	int	ret[2];
+
+	ret[0] = NOT_ENDLINE;
+	ret[1] = read(fd, tmp, BUFFER_SIZE);
+	if (ret[1] >= 0)
+	{
+		tmp[ret[1]] = '\0';
+		buffer[fd] = ft_strdup(tmp);
+	}
+}
+
 int	get_next_line(int fd, char **line)
 {
 	static char	*buffer[OPEN_MAX];
 	char		tmp[ARG_MAX];
 	int			ret[2];
 
+	if (read(fd, 0, 0) == -1 || fd < 0 || !line || BUFFER_SIZE < 1)
+		return (ERR_HAPPENED);
 	*line = ft_strdup("");
-	if (fd >= 0 && line && BUFFER_SIZE > 0 && *line)
+	ret[0] = NOT_ENDLINE;
+	while (ret[0] == NOT_ENDLINE)
 	{
-		ret[0] = NOT_ENDLINE;
-		while (ret[0] == NOT_ENDLINE)
+		if (buffer[fd] == NULL)
 		{
-			if (buffer[fd] == NULL)
-			{
-				ret[1] = read(fd, tmp, BUFFER_SIZE);
-				if (ret[1] >= 0)
-				{
-					tmp[ret[1]] = '\0';
-					buffer[fd] = ft_strdup(tmp);
-				}
-				else
-					break ;
-			}
-			if (buffer[fd] != 0)
-				ret[1] = ft_strlen(buffer[fd]);
-			ret[0] = buffer_to_line(&*line, &buffer[fd]);
-			if (ret[1] == 0)
-				return (EOF_REACHED);
+			read_and_copy(fd, &*buffer, tmp);
+			if (ret[1] < 0)
+				break ;
 		}
-		if (ret[0] == FOUND_ENDLINE)
-			return (READLINE_OK);
+		if (buffer[fd] != 0)
+			ret[1] = ft_strlen(buffer[fd]);
+		ret[0] = buffer_to_line(&*line, &buffer[fd]);
+		if (ret[1] == 0)
+			return (EOF_REACHED);
 	}
-	free_and_null(&*line);
-	return (ERR_HAPPENED);
+	return (READLINE_OK);
 }
